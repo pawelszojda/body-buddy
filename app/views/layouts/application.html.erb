@@ -29,54 +29,64 @@
 
   <body class="min-h-screen bg-[#f5f5f7] text-[#1d1d1f] antialiased">
     <div class="min-h-screen scroll-smooth bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.92),_rgba(245,245,247,1)_45%)] font-['-apple-system','BlinkMacSystemFont','SF_Pro_Display','SF_Pro_Text','Segoe_UI',sans-serif]">
-      <header class="sticky top-0 z-40 hidden border-b border-black/[0.05] bg-[#f5f5f7]/88 backdrop-blur-xl md:block">
-        <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-8">
-          <div class="flex items-center gap-4">
-            <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-black/[0.04] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
-              <span class="text-sm font-semibold tracking-[-0.04em] text-[#1d1d1f]">BB</span>
+      <% if user_signed_in? %>
+        <header class="sticky top-0 z-40 hidden border-b border-black/[0.05] bg-[#f5f5f7]/88 backdrop-blur-xl md:block">
+          <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-8">
+            <div class="flex items-center gap-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-black/[0.04] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                <span class="text-sm font-semibold tracking-[-0.04em] text-[#1d1d1f]">BB</span>
+              </div>
+              <div>
+                <%= link_to "Body Buddy", root_path, class: "text-lg font-semibold tracking-tight text-[#1d1d1f]" %>
+                <p class="text-sm text-[#86868b]">Codzienny tracking bez zbędnego szumu</p>
+              </div>
             </div>
-            <div>
-              <%= link_to "Body Buddy", root_path, class: "text-lg font-semibold tracking-tight text-[#1d1d1f]" %>
-              <p class="text-sm text-[#86868b]">Codzienny tracking bez zbędnego szumu</p>
-            </div>
-          </div>
 
-          <nav class="flex items-center gap-2 rounded-full border border-black/[0.04] bg-white/88 p-1 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
-            <% app_nav_items.each do |item| %>
-              <%= link_to item[:label], item[:path], class: nav_item_classes(item[:active]), data: { turbo_preload: true } %>
-            <% end %>
+            <nav class="flex items-center gap-2 rounded-full border border-black/[0.04] bg-white/88 p-1 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+              <% app_nav_items.each do |item| %>
+                <%= link_to item[:label], item[:path], class: nav_item_classes(item[:active]), data: { turbo_preload: true } %>
+              <% end %>
 
-            <% if user_signed_in? %>
               <%= button_to "Wyloguj", session_path, method: :delete, class: nav_item_classes(false), form_class: "contents" %>
-            <% else %>
-              <%= link_to "Załóż konto", new_user_path, class: nav_item_classes(current_page?(new_user_path)) %>
-              <%= link_to "Zaloguj", new_session_path, class: nav_item_classes(current_page?(new_session_path)) %>
-            <% end %>
-          </nav>
-        </div>
-      </header>
-
-      <main class="mx-auto max-w-6xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 sm:px-6 sm:pt-8 md:px-6 md:pb-10 lg:px-8">
-        <% flash.each do |type, message| %>
-          <% flash_classes = type.to_s == "notice" ? "border-emerald-200/80 bg-emerald-50/90 text-emerald-700" : "border-amber-200/80 bg-amber-50/90 text-amber-700" %>
-          <div class="mb-6 rounded-2xl border px-4 py-3 text-sm shadow-[0_4px_12px_rgba(0,0,0,0.03)] <%= flash_classes %>">
-            <%= message %>
+            </nav>
           </div>
-        <% end %>
+        </header>
 
-        <%= yield %>
-      </main>
-
-      <nav class="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.06] bg-white/82 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md md:hidden">
-        <div class="mx-auto flex max-w-md items-center gap-2 rounded-[1.75rem] border border-black/[0.04] bg-white/92 p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
-          <% app_nav_items.each do |item| %>
-            <%= link_to item[:path], class: mobile_tab_item_classes(item[:active]), data: { turbo_preload: true } do %>
-              <%= app_icon(item[:icon], active: item[:active]) %>
-              <span class="truncate"><%= item[:label] %></span>
-            <% end %>
+        <main class="mx-auto max-w-6xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 sm:px-6 sm:pt-8 md:px-6 md:pb-10 lg:px-8">
+          <% flash.each do |type, message| %>
+            <% flash_classes = type.to_s == "notice" ? "border-emerald-200/80 bg-emerald-50/90 text-emerald-700" : "border-amber-200/80 bg-amber-50/90 text-amber-700" %>
+            <div class="mb-6 rounded-2xl border px-4 py-3 text-sm shadow-[0_4px_12px_rgba(0,0,0,0.03)] <%= flash_classes %>">
+              <%= message %>
+            </div>
           <% end %>
-        </div>
-      </nav>
+
+          <%= yield %>
+        </main>
+
+        <nav class="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.06] bg-white/82 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md md:hidden">
+          <div class="mx-auto flex max-w-md items-center gap-2 rounded-[1.75rem] border border-black/[0.04] bg-white/92 p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+            <% app_nav_items.each do |item| %>
+              <%= link_to item[:path], class: mobile_tab_item_classes(item[:active]), data: { turbo_preload: true } do %>
+                <%= app_icon(item[:icon], active: item[:active]) %>
+                <span class="truncate"><%= item[:label] %></span>
+              <% end %>
+            <% end %>
+          </div>
+        </nav>
+      <% else %>
+        <main class="flex min-h-screen items-center justify-center px-4 py-[max(2rem,env(safe-area-inset-top))] sm:px-6">
+          <div class="w-full max-w-md">
+            <% flash.each do |type, message| %>
+              <% flash_classes = type.to_s == "notice" ? "border-emerald-200/80 bg-emerald-50/90 text-emerald-700" : "border-amber-200/80 bg-amber-50/90 text-amber-700" %>
+              <div class="mb-6 rounded-2xl border px-4 py-3 text-sm shadow-[0_4px_12px_rgba(0,0,0,0.03)] <%= flash_classes %>">
+                <%= message %>
+              </div>
+            <% end %>
+
+            <%= yield %>
+          </div>
+        </main>
+      <% end %>
     </div>
   </body>
 </html>

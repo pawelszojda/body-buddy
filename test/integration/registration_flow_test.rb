@@ -60,6 +60,6 @@ class RegistrationFlowTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
-    assert_match "Username jest już zajęta", response.body
+    assert_match "Nazwa użytkownika jest już zajęta", response.body
   end
 end
