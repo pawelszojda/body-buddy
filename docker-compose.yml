@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    image: body-buddy:latest
+    restart: always
+    environment:
+      - RAILS_ENV=production
+      - RAILS_LOG_TO_STDOUT=true
+      - SECRET_KEY_BASE=8fc211e8255e44e929642bba9aab3e868307768c65cd67033d7b9454c7bdac87c07dee3b0ef108d130f7eae4cd9a874f58287a622eb74551582e8e93a7d7ff41
+    volumes:
+      - body_buddy_storage:/rails/storage
+    ports:
+      - "3000:3000"
+
+volumes:
+  body_buddy_storage:
