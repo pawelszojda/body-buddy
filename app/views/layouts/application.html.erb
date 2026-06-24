@@ -74,19 +74,6 @@
               <span class="truncate"><%= item[:label] %></span>
             <% end %>
           <% end %>
-
-          <% account_item = mobile_account_nav_item %>
-          <% if account_item[:method].present? %>
-            <%= button_to account_item[:path], method: account_item[:method], class: mobile_tab_item_classes(account_item[:active]), form_class: "flex min-w-0 flex-1" do %>
-              <%= app_icon(account_item[:icon], active: account_item[:active]) %>
-              <span class="truncate"><%= account_item[:label] %></span>
-            <% end %>
-          <% else %>
-            <%= link_to account_item[:path], class: mobile_tab_item_classes(account_item[:active]) do %>
-              <%= app_icon(account_item[:icon], active: account_item[:active]) %>
-              <span class="truncate"><%= account_item[:label] %></span>
-            <% end %>
-          <% end %>
         </div>
       </nav>
     </div>

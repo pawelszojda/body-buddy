@@ -1,6 +1,6 @@
 module ApplicationHelper
   def app_nav_items
-    [
+    items = [
       {
         label: "Panel",
         path: root_path,
@@ -14,25 +14,17 @@ module ApplicationHelper
         icon: "chart"
       }
     ]
-  end
 
-  def mobile_account_nav_item
     if user_signed_in?
-      {
+      items << {
         label: "Konto",
-        path: session_path,
-        active: false,
-        icon: "person",
-        method: :delete
-      }
-    else
-      {
-        label: "Zaloguj",
-        path: new_session_path,
-        active: current_page?(new_session_path),
+        path: account_path,
+        active: current_page?(account_path),
         icon: "person"
       }
     end
+
+    items
   end
 
   def nav_item_classes(active)
@@ -144,6 +136,10 @@ module ApplicationHelper
 
   def report_date_range_label(date_from, date_to)
     "#{date_from.strftime("%d.%m.%Y")} - #{date_to.strftime("%d.%m.%Y")}"
+  end
+
+  def account_summary_value(value)
+    value.presence || "Brak"
   end
 
   private
