@@ -1,81 +1,106 @@
 <% content_for :title, "Pomiar | Body Buddy" %>
 
 <section class="space-y-6">
-  <article class="rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-sm shadow-slate-200/70 backdrop-blur sm:p-8">
-    <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-      <div class="max-w-2xl">
-        <%= link_to "Wróć do historii", root_path, class: "text-sm font-medium text-slate-500 transition hover:text-slate-900" %>
-        <p class="mt-4 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Szczegóły wpisu</p>
-        <h1 class="mt-2 text-4xl font-semibold tracking-[-0.05em] text-slate-950">
-          <%= number_with_precision(@measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
-          <span class="text-2xl font-medium text-slate-500">kg</span>
-        </h1>
-        <p class="mt-3 text-base leading-7 text-slate-600">
-          Zapis z <%= measurement_entry_timestamp(@measurement_entry.created_at) %>
+  <article class="overflow-hidden rounded-3xl border border-black/[0.04] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+    <div class="bg-[linear-gradient(135deg,rgba(255,255,255,1),rgba(247,248,251,1))] px-6 py-7 sm:px-8">
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div class="max-w-2xl">
+          <%= link_to "Wróć do historii", root_path, class: "text-sm font-medium text-[#86868b] transition hover:text-[#1d1d1f]" %>
+          <p class="mt-4 text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Szczegóły wpisu</p>
+          <h1 class="mt-2 text-4xl font-semibold tracking-tight text-[#1d1d1f] sm:text-5xl">
+            <%= number_with_precision(@measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
+            <span class="text-2xl font-medium text-[#86868b]">kg</span>
+          </h1>
+          <p class="mt-3 text-base leading-7 text-[#6e6e73]">
+            Zapis z <%= measurement_entry_timestamp(@measurement_entry.created_at) %>
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <% @measurement_entry.quick_status_badges.each do |badge| %>
+            <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f7f8fb] px-3 py-1.5 text-sm font-medium text-[#6e6e73]">
+              <%= badge[:label] %>: <%= badge[:value] %>
+            </span>
+          <% end %>
+
+          <% if @measurement_entry.body_fat.present? %>
+            <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f7f8fb] px-3 py-1.5 text-sm font-medium text-[#6e6e73]">
+              Tkanka tłuszczowa: <%= number_with_precision(@measurement_entry.body_fat, precision: 2, strip_insignificant_zeros: true) %>%
+            </span>
+          <% end %>
+
+          <% if @measurement_entry.stool_color.present? %>
+            <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f7f8fb] px-3 py-1.5 text-sm font-medium text-[#6e6e73]">
+              Kolor: <%= @measurement_entry.stool_color %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-4 border-t border-black/[0.04] px-6 py-6 sm:px-8 lg:grid-cols-4">
+      <article class="rounded-2xl bg-[#f7f8fb] px-4 py-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Waga</p>
+        <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+          <%= number_with_precision(@measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %> kg
         </p>
-      </div>
+      </article>
 
-      <div class="flex flex-wrap gap-2">
-        <% @measurement_entry.quick_status_badges.each do |badge| %>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700">
-            <%= badge[:label] %>: <%= badge[:value] %>
-          </span>
-        <% end %>
+      <article class="rounded-2xl bg-[#f7f8fb] px-4 py-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Tkanka tłuszczowa</p>
+        <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+          <%= @measurement_entry.body_fat.present? ? "#{number_with_precision(@measurement_entry.body_fat, precision: 2, strip_insignificant_zeros: true)}%" : "Brak" %>
+        </p>
+      </article>
 
-        <% if @measurement_entry.body_fat.present? %>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700">
-            Tkanka tłuszczowa: <%= number_with_precision(@measurement_entry.body_fat, precision: 2, strip_insignificant_zeros: true) %>%
-          </span>
-        <% end %>
+      <article class="rounded-2xl bg-[#f7f8fb] px-4 py-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Nastrój</p>
+        <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]"><%= @measurement_entry.mood_badge&.dig(:value) || "Brak" %></p>
+      </article>
 
-        <% if @measurement_entry.stool_color.present? %>
-          <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700">
-            Kolor: <%= @measurement_entry.stool_color %>
-          </span>
-        <% end %>
-      </div>
+      <article class="rounded-2xl bg-[#f7f8fb] px-4 py-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Sen</p>
+        <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]"><%= @measurement_entry.sleep_badge&.dig(:value) || "Brak" %></p>
+      </article>
     </div>
   </article>
 
-  <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+  <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
     <section class="space-y-6">
-      <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
+      <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Obwody</p>
-            <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Pełny zestaw pomiarów</h2>
+            <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Obwody</p>
+            <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Pełny zestaw pomiarów</h2>
           </div>
         </div>
 
         <% if @measurement_entry.circumference_rows.any? %>
-          <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200">
-            <div class="grid grid-cols-2 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-              <span>Partia</span>
-              <span>Wartość</span>
-            </div>
-
+          <div class="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <% @measurement_entry.circumference_rows.each do |row| %>
-              <div class="grid grid-cols-2 border-t border-slate-200 bg-white px-5 py-4 text-sm sm:text-base">
-                <span class="font-medium text-slate-700"><%= row[:label] %></span>
-                <span class="text-slate-950"><%= number_with_precision(row[:value], precision: 2, strip_insignificant_zeros: true) %> cm</span>
-              </div>
+              <article class="rounded-2xl border border-black/[0.04] bg-[#f7f8fb] px-4 py-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]"><%= row[:label] %></p>
+                <p class="mt-2 text-lg font-medium text-[#1d1d1f]">
+                  <%= number_with_precision(row[:value], precision: 2, strip_insignificant_zeros: true) %> cm
+                </p>
+              </article>
             <% end %>
           </div>
         <% else %>
-          <p class="mt-6 rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-5 py-4 text-sm leading-6 text-slate-500">
+          <p class="mt-6 rounded-2xl border border-dashed border-black/[0.08] bg-[#f7f8fb] px-5 py-4 text-sm leading-6 text-[#6e6e73]">
             Ten wpis nie zawiera jeszcze obwodów.
           </p>
         <% end %>
       </article>
 
-      <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Notatka</p>
-        <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Komentarz do dnia</h2>
+      <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Notatka</p>
+        <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Komentarz do dnia</h2>
 
         <% if @measurement_entry.note.present? %>
-          <p class="mt-6 whitespace-pre-line text-base leading-8 text-slate-700"><%= @measurement_entry.note %></p>
+          <p class="mt-6 whitespace-pre-line text-base leading-8 text-[#3a3a3c]"><%= @measurement_entry.note %></p>
         <% else %>
-          <p class="mt-6 rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-5 py-4 text-sm leading-6 text-slate-500">
+          <p class="mt-6 rounded-2xl border border-dashed border-black/[0.08] bg-[#f7f8fb] px-5 py-4 text-sm leading-6 text-[#6e6e73]">
             Brak dodatkowej notatki do tego pomiaru.
           </p>
         <% end %>
@@ -83,53 +108,56 @@
     </section>
 
     <section class="space-y-6">
-      <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Stan dnia</p>
-        <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Sygnały i samopoczucie</h2>
+      <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Stan dnia</p>
+        <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Sygnały i samopoczucie</h2>
 
         <div class="mt-6 grid gap-3 sm:grid-cols-2">
-          <article class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-4">
-            <p class="text-sm text-slate-500">Nastrój</p>
-            <p class="mt-2 text-2xl font-semibold text-slate-950"><%= @measurement_entry.mood_badge&.dig(:value) || "Brak" %></p>
+          <article class="rounded-2xl border border-black/[0.04] bg-[#f7f8fb] px-5 py-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Nastrój</p>
+            <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]"><%= @measurement_entry.mood_badge&.dig(:value) || "Brak" %></p>
           </article>
 
-          <article class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-4">
-            <p class="text-sm text-slate-500">Sen</p>
-            <p class="mt-2 text-2xl font-semibold text-slate-950"><%= @measurement_entry.sleep_badge&.dig(:value) || "Brak" %></p>
+          <article class="rounded-2xl border border-black/[0.04] bg-[#f7f8fb] px-5 py-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Sen</p>
+            <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]"><%= @measurement_entry.sleep_badge&.dig(:value) || "Brak" %></p>
           </article>
 
-          <article class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-4 sm:col-span-2">
-            <p class="text-sm text-slate-500">Skala Bristol</p>
-            <p class="mt-2 text-2xl font-semibold text-slate-950"><%= @measurement_entry.bristol_badge&.dig(:value) || "Brak" %></p>
+          <article class="rounded-2xl border border-black/[0.04] bg-[#f7f8fb] px-5 py-4 sm:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">Skala Bristol</p>
+            <p class="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]"><%= @measurement_entry.bristol_badge&.dig(:value) || "Brak" %></p>
           </article>
         </div>
       </article>
 
-      <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Galeria</p>
-        <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Zdjęcia sylwetki</h2>
+      <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Galeria</p>
+        <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Zdjęcia sylwetki</h2>
 
         <% if @measurement_entry.photo_gallery_items.any? { |item| item[:attachment].attached? } %>
           <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <% @measurement_entry.photo_gallery_items.each do |item| %>
-              <article class="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
-                <div class="aspect-[4/5] bg-slate-100">
+              <article class="group relative overflow-hidden rounded-xl border border-black/[0.04] bg-[#f7f8fb]">
+                <div class="aspect-[3/4] bg-[#ececf1]">
                   <% if item[:attachment].attached? %>
-                    <%= image_tag item[:attachment], class: "h-full w-full object-cover" %>
+                    <%= image_tag item[:attachment], class: "h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]" %>
+                    <div class="pointer-events-none absolute left-3 top-3 rounded-full bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                      <%= item[:label] %>
+                    </div>
                   <% else %>
-                    <div class="flex h-full items-center justify-center px-6 text-center text-sm text-slate-400">
+                    <div class="flex h-full items-center justify-center px-6 text-center text-sm text-[#86868b]">
                       Brak zdjęcia
                     </div>
+                    <div class="pointer-events-none absolute left-3 top-3 rounded-full bg-black/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                      <%= item[:label] %>
+                    </div>
                   <% end %>
-                </div>
-                <div class="border-t border-slate-200 px-4 py-3 text-sm font-medium text-slate-700">
-                  <%= item[:label] %>
                 </div>
               </article>
             <% end %>
           </div>
         <% else %>
-          <p class="mt-6 rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-5 py-4 text-sm leading-6 text-slate-500">
+          <p class="mt-6 rounded-2xl border border-dashed border-black/[0.08] bg-[#f7f8fb] px-5 py-4 text-sm leading-6 text-[#6e6e73]">
             Do tego wpisu nie dodano jeszcze żadnych zdjęć.
           </p>
         <% end %>
