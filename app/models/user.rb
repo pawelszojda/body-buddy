@@ -5,8 +5,13 @@ class User < ApplicationRecord
 
   before_validation :normalize_email, :normalize_username, :assign_username_from_email
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 3, maximum: 32 }
+  validates :email,
+            presence: { message: "nie może być puste" },
+            uniqueness: { case_sensitive: false, message: "jest już zajęty" }
+  validates :username,
+            presence: { message: "nie może być pusta" },
+            uniqueness: { case_sensitive: false, message: "jest już zajęta" },
+            length: { minimum: 3, maximum: 32 }
 
   def self.authenticate_by_login(login:, password:)
     normalized_login = login.to_s.downcase.strip

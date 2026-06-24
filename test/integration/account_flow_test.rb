@@ -26,6 +26,22 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
     assert_equal "new@example.com", @user.email
   end
 
+  test "rejects duplicate username update" do
+    User.create!(
+      email: "taken@example.com",
+      username: "zajety_login",
+      password: "password123",
+      password_confirmation: "password123"
+    )
+
+    sign_in_as(@user)
+
+    patch account_path, params: { user: { username: "ZAJETY_LOGIN", email: @user.email } }
+
+    assert_response :unprocessable_entity
+    assert_match "Username jest już zajęta", response.body
+  end
+
   test "updates password when current password is valid" do
     sign_in_as(@user)
 

@@ -23,5 +23,12 @@
 
       <%= form.submit "Zaloguj się", data: { turbo_submits_with: "Logowanie..." }, class: "w-full rounded-2xl bg-slate-950 px-4 py-3 text-base font-medium text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-slate-800 active:scale-[0.99] disabled:translate-y-0 disabled:cursor-wait disabled:opacity-70" %>
     <% end %>
+
+    <div class="mt-6 border-t border-slate-200 pt-5 text-center">
+      <p class="text-sm text-slate-600">
+        Nie masz jeszcze konta?
+        <%= link_to "Załóż konto", new_user_path, class: "font-medium text-[#007aff] transition hover:text-[#005ecb]" %>
+      </p>
+    </div>
   </div>
 </div>
