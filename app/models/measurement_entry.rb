@@ -1,5 +1,17 @@
 class MeasurementEntry < ApplicationRecord
   BODY_MEASUREMENT_FIELDS = %i[calf thigh buttocks waist abdomen chest biceps forearm].freeze
+  COMPARISON_FIELDS = [
+    { field: :weight, label: "Waga", unit: "kg", positive_trend: :decrease },
+    { field: :body_fat, label: "Tkanka tłuszczowa", unit: "%", positive_trend: :decrease },
+    { field: :calf, label: "Łydka", unit: "cm", positive_trend: :decrease },
+    { field: :thigh, label: "Udo", unit: "cm", positive_trend: :decrease },
+    { field: :buttocks, label: "Pośladki", unit: "cm", positive_trend: :decrease },
+    { field: :waist, label: "Pas", unit: "cm", positive_trend: :decrease },
+    { field: :abdomen, label: "Brzuch", unit: "cm", positive_trend: :decrease },
+    { field: :chest, label: "Klatka piersiowa", unit: "cm", positive_trend: :decrease },
+    { field: :biceps, label: "Biceps", unit: "cm", positive_trend: :decrease },
+    { field: :forearm, label: "Przedramię", unit: "cm", positive_trend: :decrease }
+  ].freeze
   BODY_MEASUREMENT_LABELS = {
     calf: "Łydka",
     thigh: "Udo",
@@ -48,6 +60,8 @@ class MeasurementEntry < ApplicationRecord
   validates :bristol_stool_type, inclusion: { in: 1..7 }, allow_nil: true
 
   scope :recent_first, -> { order(created_at: :desc) }
+  scope :chronological, -> { order(created_at: :asc) }
+  scope :within_date_range, ->(date_from, date_to) { where(created_at: date_from.beginning_of_day..date_to.end_of_day) }
 
   def quick_status_badges
     [
@@ -90,5 +104,29 @@ class MeasurementEntry < ApplicationRecord
       { label: "Tył", attachment: photo_back },
       { label: "Bok", attachment: photo_side }
     ]
+  end
+
+  def self.comparison_rows(first_entry, last_entry)
+    COMPARISON_FIELDS.filter_map do |config|
+      first_value = first_entry.public_send(config[:field])
+      last_value = last_entry.public_send(config[:field])
+      next if first_value.blank? && last_value.blank?
+
+      {
+        field: config[:field],
+        label: config[:label],
+        unit: config[:unit],
+        positive_trend: config[:positive_trend],
+        first_value: first_value,
+        last_value: last_value,
+        delta: compute_delta(first_value, last_value)
+      }
+    end
+  end
+
+  def self.compute_delta(first_value, last_value)
+    return if first_value.blank? || last_value.blank?
+
+    last_value - first_value
   end
 end
