@@ -1,0 +1,14 @@
+<fieldset class="space-y-3">
+  <legend class="text-sm font-medium text-slate-700"><%= legend %></legend>
+  <div class="grid grid-cols-5 gap-2 sm:flex sm:flex-wrap">
+    <% options.each do |label, value| %>
+      <% input_id = "#{field}_#{value}" %>
+      <div>
+        <%= form.radio_button field, value, id: input_id, class: "peer sr-only" %>
+        <%= form.label input_id, class: "flex min-h-14 min-w-14 cursor-pointer items-center justify-center rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-3 text-lg font-medium text-slate-600 transition hover:border-slate-300 hover:bg-white peer-checked:border-slate-900 peer-checked:bg-slate-900 peer-checked:text-white" do %>
+          <%= label %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

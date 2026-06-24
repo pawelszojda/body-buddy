@@ -1,27 +1,27 @@
-<% content_for :title, "Log In | Body Buddy" %>
+<% content_for :title, "Logowanie | Body Buddy" %>
 
 <div class="mx-auto max-w-md">
   <div class="rounded-[2rem] border border-white/80 bg-white/85 p-8 shadow-lg shadow-slate-200/70 backdrop-blur">
     <div class="mb-8">
-      <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Secure Access</p>
-      <h1 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">Log in to Body Buddy</h1>
+      <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Bezpieczny dostęp</p>
+      <h1 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">Zaloguj się do Body Buddy</h1>
       <p class="mt-3 text-sm leading-6 text-slate-600">
-        Use your account to access measurements, progress history, and upcoming tracking features.
+        Użyj swojego konta, aby mieć dostęp do pomiarów, historii postępów i kolejnych funkcji aplikacji.
       </p>
     </div>
 
     <%= form_with url: session_path, class: "space-y-5" do |form| %>
       <div class="space-y-2">
-        <%= form.label :email, class: "text-sm font-medium text-slate-700" %>
+        <%= form.label :email, "E-mail", class: "text-sm font-medium text-slate-700" %>
         <%= form.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
       </div>
 
       <div class="space-y-2">
-        <%= form.label :password, class: "text-sm font-medium text-slate-700" %>
+        <%= form.label :password, "Hasło", class: "text-sm font-medium text-slate-700" %>
         <%= form.password_field :password, autocomplete: "current-password", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
       </div>
 
-      <%= form.submit "Log in", class: "w-full rounded-2xl bg-slate-950 px-4 py-3 text-base font-medium text-white transition hover:bg-slate-800" %>
+      <%= form.submit "Zaloguj się", class: "w-full rounded-2xl bg-slate-950 px-4 py-3 text-base font-medium text-white transition hover:bg-slate-800" %>
     <% end %>
   </div>
 </div>

@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "quick_add_measurement_entry" do %>
+  <section class="rounded-[2rem] border border-white/80 bg-white/90 p-6 shadow-lg shadow-slate-200/70 backdrop-blur sm:p-8">
+    <%= render "form", measurement_entry: @measurement_entry %>
+  </section>
+<% end %>

@@ -1,0 +1,4 @@
+<%= turbo_stream.prepend "measurement_entries", partial: "measurement_entries/measurement_entry", locals: { measurement_entry: @measurement_entry } %>
+<%= turbo_stream.remove "empty_measurement_entries_state" %>
+<%= turbo_stream.update "measurement_entries_count", measurement_entries_count_label(@measurement_entry.user.measurement_entries.count) %>
+<%= turbo_stream.update "quick_add_measurement_entry", partial: "measurement_entries/quick_add_button" %>

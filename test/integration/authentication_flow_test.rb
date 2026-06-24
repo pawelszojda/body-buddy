@@ -17,13 +17,13 @@ class AuthenticationFlowTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_match @user.email, response.body
+    assert_match "Dodaj pomiar", response.body
   end
 
   test "rejects invalid credentials" do
     post session_path, params: { email: @user.email, password: "wrong-password" }
 
     assert_response :unprocessable_entity
-    assert_match "Invalid email or password.", response.body
+    assert_match "Nieprawidłowy e-mail lub hasło.", response.body
   end
 end

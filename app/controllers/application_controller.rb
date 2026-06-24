@@ -22,6 +22,6 @@ class ApplicationController < ActionController::Base
   def require_authentication
     return if user_signed_in?
 
-    redirect_to new_session_path, alert: "Please sign in to continue."
+    redirect_to new_session_path, alert: "Zaloguj się, aby kontynuować."
   end
 end

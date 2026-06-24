@@ -1,0 +1,27 @@
+<article id="<%= dom_id(measurement_entry) %>" class="rounded-[1.75rem] border border-white/70 bg-white/80 p-5 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-6">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <p class="text-sm text-slate-500">
+        <%= measurement_entry_timestamp(measurement_entry.created_at) %>
+      </p>
+      <p class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
+        <%= number_with_precision(measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
+        <span class="text-lg font-medium text-slate-500">kg</span>
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <% measurement_entry.quick_status_badges.each do |badge| %>
+        <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700">
+          <%= badge[:label] %>: <%= badge[:value] %>
+        </span>
+      <% end %>
+
+      <% if measurement_entry.photo_front.attached? || measurement_entry.photo_back.attached? || measurement_entry.photo_side.attached? %>
+        <span class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700">
+          Zdjęcia
+        </span>
+      <% end %>
+    </div>
+  </div>
+</article>

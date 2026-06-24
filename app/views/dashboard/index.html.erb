@@ -1,0 +1,47 @@
+<% content_for :title, "Panel | Body Buddy" %>
+
+<section class="space-y-6">
+  <article class="rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-sm shadow-slate-200/70 backdrop-blur sm:p-8">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Dzienny rytm</p>
+        <h1 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-4xl">
+          Zapisz pomiar bez przechodzenia między ekranami.
+        </h1>
+        <p class="mt-4 text-base leading-7 text-slate-600">
+          Dodaj nowy wpis, a lista historii odświeży się od razu bez pełnego przeładowania strony.
+        </p>
+      </div>
+
+      <div class="sm:min-w-56">
+        <%= turbo_frame_tag "quick_add_measurement_entry" do %>
+          <%= render "measurement_entries/quick_add_button" %>
+        <% end %>
+      </div>
+    </div>
+  </article>
+
+  <section class="space-y-4" aria-labelledby="historia-pomiarow">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Historia</p>
+        <h2 id="historia-pomiarow" class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
+          Ostatnie pomiary
+        </h2>
+      </div>
+      <p id="measurement_entries_count" class="rounded-full border border-white/70 bg-white/75 px-4 py-2 text-sm text-slate-600 shadow-sm shadow-slate-200/60">
+        <%= measurement_entries_count_label(@measurement_entries.count) %>
+      </p>
+    </div>
+
+    <div id="measurement_entries" class="space-y-3">
+      <% if @measurement_entries.any? %>
+        <%= render @measurement_entries %>
+      <% else %>
+        <article id="empty_measurement_entries_state" class="rounded-[1.75rem] border border-dashed border-slate-300 bg-white/70 p-6 text-sm leading-6 text-slate-500">
+          Nie masz jeszcze żadnych pomiarów. Dodaj pierwszy wpis, aby zbudować historię postępów.
+        </article>
+      <% end %>
+    </div>
+  </section>
+</section>
