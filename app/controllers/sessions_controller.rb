@@ -6,9 +6,12 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email].to_s.downcase.strip)
+    user = User.authenticate_by_login(
+      login: params[:login] || params[:email],
+      password: params[:password]
+    )
 
-    if user&.authenticate(params[:password].to_s)
+    if user
       reset_session
       session[:user_id] = user.id
       redirect_to root_path, notice: "Witaj ponownie."

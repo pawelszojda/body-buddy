@@ -8,6 +8,16 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 3, maximum: 32 }
 
+  def self.authenticate_by_login(login:, password:)
+    normalized_login = login.to_s.downcase.strip
+    return if normalized_login.blank?
+
+    user = find_by(email: normalized_login) || find_by(username: normalized_login)
+    return unless user
+
+    user.authenticate(password.to_s) ? user : nil
+  end
+
   private
 
   def normalize_email

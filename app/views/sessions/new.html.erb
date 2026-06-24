@@ -12,8 +12,8 @@
 
     <%= form_with url: session_path, class: "space-y-5 turbo-subtle-busy" do |form| %>
       <div class="space-y-2">
-        <%= form.label :email, "E-mail", class: "text-sm font-medium text-slate-700" %>
-        <%= form.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
+        <%= form.label :login, "E-mail lub nazwa użytkownika", class: "text-sm font-medium text-slate-700" %>
+        <%= form.text_field :login, autofocus: true, autocomplete: "username", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
       </div>
 
       <div class="space-y-2">

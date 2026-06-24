@@ -33,6 +33,6 @@ class DashboardFlowTest < ActionDispatch::IntegrationTest
   private
 
   def sign_in_as(user)
-    post session_path, params: { email: user.email, password: "password123" }
+    post session_path, params: { login: user.email, password: "password123" }
   end
 end
