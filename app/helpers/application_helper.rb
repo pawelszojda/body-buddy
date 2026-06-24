@@ -78,6 +78,30 @@ module ApplicationHelper
     timestamp.strftime("%d.%m.%Y • %H:%M")
   end
 
+  def dashboard_date_label(date = Date.current)
+    weekdays = %w[niedziela poniedziałek wtorek środa czwartek piątek sobota]
+    months = [
+      nil, "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca",
+      "lipca", "sierpnia", "września", "października", "listopada", "grudnia"
+    ]
+
+    "#{weekdays[date.wday].capitalize}, #{date.day} #{months[date.month]}"
+  end
+
+  def dashboard_metric_delta_pill(delta, unit)
+    return "Brak wcześniejszego porównania" if delta.blank?
+    return "Bez zmian od poprzedniego wpisu" if delta.zero?
+
+    prefix = delta.negative? ? "" : "+"
+    "#{prefix}#{number_with_precision(delta, precision: 2, strip_insignificant_zeros: true)} #{unit} od poprzedniego wpisu"
+  end
+
+  def dashboard_metric_delta_classes(delta)
+    return "bg-[#f2f2f7] text-[#86868b]" if delta.blank? || delta.zero?
+
+    delta.negative? ? "bg-emerald-50 text-emerald-600" : "bg-[#f2f2f7] text-[#6e6e73]"
+  end
+
   def measurement_metric_value(value, unit)
     return "Brak" if value.blank?
 

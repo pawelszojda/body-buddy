@@ -1,29 +1,60 @@
-<article id="<%= dom_id(measurement_entry) %>" class="rounded-[1.75rem] border border-white/70 bg-white/80 p-5 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-6">
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-    <div>
-      <p class="text-sm text-slate-500">
-        <%= measurement_entry_timestamp(measurement_entry.created_at) %>
-      </p>
-      <%= link_to measurement_entry_path(measurement_entry), class: "mt-2 inline-block text-3xl font-semibold tracking-[-0.04em] text-slate-950 transition hover:text-slate-700" do %>
-        <%= number_with_precision(measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
-        <span class="text-lg font-medium text-slate-500">kg</span>
-      <% end %>
+<article id="<%= dom_id(measurement_entry) %>" class="rounded-2xl border border-black/[0.04] bg-white p-4 shadow-[0_4px_12px_rgba(0,0,0,0.03)] transition-all duration-200 ease-out hover:-translate-y-0.5 sm:p-5">
+  <div class="flex items-start gap-4">
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0">
+          <p class="text-sm text-[#86868b]">
+            <%= measurement_entry_timestamp(measurement_entry.created_at) %>
+          </p>
+          <div class="mt-3 flex items-end gap-3">
+            <%= link_to measurement_entry_path(measurement_entry), class: "text-3xl font-semibold tracking-tight text-[#1d1d1f] transition hover:text-[#007aff]" do %>
+              <%= number_with_precision(measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
+              <span class="text-lg font-medium text-[#86868b]">kg</span>
+            <% end %>
+
+            <% if measurement_entry.body_fat.present? %>
+              <span class="rounded-full bg-[#f2f2f7] px-3 py-1 text-sm font-medium text-[#6e6e73]">
+                <%= number_with_precision(measurement_entry.body_fat, precision: 2, strip_insignificant_zeros: true) %>% tłuszczu
+              </span>
+            <% end %>
+          </div>
+        </div>
+
+        <%= link_to "Szczegóły", measurement_entry_path(measurement_entry), class: "inline-flex items-center rounded-full bg-[#f2f2f7] px-4 py-2 text-sm font-medium text-[#1d1d1f] transition-all duration-200 ease-out hover:bg-black/[0.06]" %>
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-2">
+        <% measurement_entry.circumference_badges.each do |badge| %>
+          <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f8f8fa] px-3 py-1.5 text-xs font-medium text-[#6e6e73]">
+            <%= badge[:label] %>
+          </span>
+        <% end %>
+
+        <% measurement_entry.quick_status_badges.each do |badge| %>
+          <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f8f8fa] px-3 py-1.5 text-xs font-medium text-[#6e6e73]">
+            <%= badge[:value] %>
+          </span>
+        <% end %>
+
+        <% remaining_circumferences = measurement_entry.circumference_rows.count - measurement_entry.circumference_badges.count %>
+        <% if remaining_circumferences.positive? %>
+          <span class="inline-flex items-center rounded-full border border-black/[0.04] bg-[#f8f8fa] px-3 py-1.5 text-xs font-medium text-[#6e6e73]">
+            +<%= remaining_circumferences %> obw.
+          </span>
+        <% end %>
+      </div>
     </div>
 
-    <div class="flex flex-wrap gap-2">
-      <% measurement_entry.quick_status_badges.each do |badge| %>
-        <span class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700">
-          <%= badge[:label] %>: <%= badge[:value] %>
-        </span>
-      <% end %>
-
-      <% if measurement_entry.photo_front.attached? || measurement_entry.photo_back.attached? || measurement_entry.photo_side.attached? %>
-        <span class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700">
-          Zdjęcia
-        </span>
-      <% end %>
-
-      <%= link_to "Szczegóły", measurement_entry_path(measurement_entry), class: "inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-950" %>
-    </div>
+    <% if measurement_entry.attached_photos.any? %>
+      <div class="hidden shrink-0 sm:block">
+        <div class="flex -space-x-3">
+          <% measurement_entry.attached_photos.first(3).each_with_index do |photo, index| %>
+            <div class="h-16 w-12 overflow-hidden rounded-xl border border-white bg-[#f2f2f7] shadow-[0_4px_12px_rgba(0,0,0,0.06)] <%= index.zero? ? '' : '' %>">
+              <%= image_tag photo, class: "h-full w-full object-cover" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </article>

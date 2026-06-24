@@ -106,6 +106,14 @@ class MeasurementEntry < ApplicationRecord
     ]
   end
 
+  def attached_photos
+    [ photo_front, photo_back, photo_side ].select(&:attached?)
+  end
+
+  def circumference_badges(limit: 3)
+    circumference_rows.first(limit)
+  end
+
   def self.comparison_rows(first_entry, last_entry)
     COMPARISON_FIELDS.filter_map do |config|
       first_value = first_entry.public_send(config[:field])
@@ -128,5 +136,15 @@ class MeasurementEntry < ApplicationRecord
     return if first_value.blank? || last_value.blank?
 
     last_value - first_value
+  end
+
+  def self.delta_between(previous_entry, latest_entry, field)
+    return if previous_entry.blank? || latest_entry.blank?
+
+    previous_value = previous_entry.public_send(field)
+    latest_value = latest_entry.public_send(field)
+    return if previous_value.blank? || latest_value.blank?
+
+    latest_value - previous_value
   end
 end
