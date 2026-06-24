@@ -123,10 +123,10 @@ module ApplicationHelper
 
   def comparison_delta_classes(row)
     delta = row[:delta]
-    return "text-slate-500" if delta.blank? || delta.zero?
+    return "text-[#86868b]" if delta.blank? || delta.zero?
 
     improved = comparison_metric_improved?(row)
-    improved ? "text-emerald-600" : "text-rose-600"
+    improved ? "text-emerald-600" : "text-[#3a3a3c]"
   end
 
   def comparison_metric_improved?(row)
@@ -140,6 +140,10 @@ module ApplicationHelper
     else
       false
     end
+  end
+
+  def report_date_range_label(date_from, date_to)
+    "#{date_from.strftime("%d.%m.%Y")} - #{date_to.strftime("%d.%m.%Y")}"
   end
 
   private

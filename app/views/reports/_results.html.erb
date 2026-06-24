@@ -1,39 +1,49 @@
 <% if first_entry.blank? || last_entry.blank? %>
-  <article class="rounded-[2rem] border border-dashed border-slate-300 bg-white/75 p-8 text-sm leading-7 text-slate-500">
+  <article class="rounded-3xl border border-dashed border-black/[0.08] bg-white p-8 text-sm leading-7 text-[#6e6e73] shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
     Brak pomiarów w zakresie <strong><%= date_from.strftime("%d.%m.%Y") %></strong> - <strong><%= date_to.strftime("%d.%m.%Y") %></strong>.
   </article>
 <% else %>
   <% comparison_rows = MeasurementEntry.comparison_rows(first_entry, last_entry) %>
 
   <section class="space-y-6">
-    <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-      <div class="grid gap-4 lg:grid-cols-2">
-        <article class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-4">
-          <p class="text-sm text-slate-500">Pierwszy wpis</p>
-          <p class="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
+    <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Okno analizy</p>
+          <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Pierwszy wpis vs ostatni wpis</h2>
+        </div>
+        <span class="inline-flex rounded-full bg-[#f2f2f7] px-4 py-2 text-sm font-medium text-[#6e6e73]">
+          <%= report_date_range_label(date_from, date_to) %>
+        </span>
+      </div>
+
+      <div class="mt-6 grid gap-4 lg:grid-cols-2">
+        <article class="rounded-[1.75rem] border border-black/[0.04] bg-[#f7f8fb] px-5 py-5">
+          <p class="text-sm text-[#86868b]">Pierwszy wpis</p>
+          <p class="mt-2 text-3xl font-semibold tracking-tight text-[#1d1d1f]">
             <%= measurement_metric_value(first_entry.weight, "kg") %>
           </p>
-          <p class="mt-2 text-sm text-slate-500"><%= measurement_entry_timestamp(first_entry.created_at) %></p>
-          <%= link_to "Zobacz wpis", measurement_entry_path(first_entry), class: "mt-4 inline-flex text-sm font-medium text-slate-600 transition hover:text-slate-950" %>
+          <p class="mt-2 text-sm text-[#86868b]"><%= measurement_entry_timestamp(first_entry.created_at) %></p>
+          <%= link_to "Zobacz wpis", measurement_entry_path(first_entry), class: "mt-4 inline-flex text-sm font-medium text-[#007aff] transition hover:text-[#005ecb]" %>
         </article>
 
-        <article class="rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-4">
-          <p class="text-sm text-slate-500">Ostatni wpis</p>
-          <p class="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
+        <article class="rounded-[1.75rem] border border-black/[0.04] bg-[#f7f8fb] px-5 py-5">
+          <p class="text-sm text-[#86868b]">Ostatni wpis</p>
+          <p class="mt-2 text-3xl font-semibold tracking-tight text-[#1d1d1f]">
             <%= measurement_metric_value(last_entry.weight, "kg") %>
           </p>
-          <p class="mt-2 text-sm text-slate-500"><%= measurement_entry_timestamp(last_entry.created_at) %></p>
-          <%= link_to "Zobacz wpis", measurement_entry_path(last_entry), class: "mt-4 inline-flex text-sm font-medium text-slate-600 transition hover:text-slate-950" %>
+          <p class="mt-2 text-sm text-[#86868b]"><%= measurement_entry_timestamp(last_entry.created_at) %></p>
+          <%= link_to "Zobacz wpis", measurement_entry_path(last_entry), class: "mt-4 inline-flex text-sm font-medium text-[#007aff] transition hover:text-[#005ecb]" %>
         </article>
       </div>
     </article>
 
-    <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-      <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Macierz zmian</p>
-      <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Porównanie metryk</h2>
+    <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+      <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Macierz zmian</p>
+      <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Porównanie metryk</h2>
 
-      <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200">
-        <div class="grid grid-cols-4 gap-4 bg-slate-50 px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+      <div class="mt-6 overflow-hidden rounded-[1.75rem] border border-black/[0.04]">
+        <div class="grid grid-cols-4 gap-4 bg-[#f7f8fb] px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-[#86868b]">
           <span>Parametr</span>
           <span>Pierwszy</span>
           <span>Ostatni</span>
@@ -41,19 +51,19 @@
         </div>
 
         <% comparison_rows.each do |row| %>
-          <div class="grid grid-cols-4 gap-4 border-t border-slate-200 bg-white px-5 py-4 text-sm sm:text-base">
-            <span class="font-medium text-slate-700"><%= row[:label] %></span>
-            <span class="text-slate-950"><%= measurement_metric_value(row[:first_value], row[:unit]) %></span>
-            <span class="text-slate-950"><%= measurement_metric_value(row[:last_value], row[:unit]) %></span>
+          <div class="grid grid-cols-4 gap-4 border-t border-black/[0.04] bg-white px-5 py-4 text-sm sm:text-base">
+            <span class="font-medium text-[#3a3a3c]"><%= row[:label] %></span>
+            <span class="text-[#1d1d1f]"><%= measurement_metric_value(row[:first_value], row[:unit]) %></span>
+            <span class="text-[#1d1d1f]"><%= measurement_metric_value(row[:last_value], row[:unit]) %></span>
             <span class="font-semibold <%= comparison_delta_classes(row) %>"><%= measurement_delta_value(row[:delta], row[:unit]) %></span>
           </div>
         <% end %>
       </div>
     </article>
 
-    <article class="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-sm shadow-slate-200/60 backdrop-blur sm:p-8">
-      <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Porównanie wizualne</p>
-      <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Zdjęcia: pierwszy vs ostatni</h2>
+    <article class="rounded-3xl border border-black/[0.04] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-8">
+      <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Porównanie wizualne</p>
+      <h2 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Zdjęcia: pierwszy vs ostatni</h2>
 
       <div class="mt-6 grid gap-5 xl:grid-cols-3">
         <% [
@@ -61,30 +71,33 @@
           { label: "Tył", first: first_entry.photo_back, last: last_entry.photo_back },
           { label: "Bok", first: first_entry.photo_side, last: last_entry.photo_side }
         ].each do |comparison| %>
-          <article class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-4">
-            <p class="text-sm font-medium uppercase tracking-[0.18em] text-slate-500"><%= comparison[:label] %></p>
+          <article class="rounded-[1.75rem] border border-black/[0.04] bg-[#f7f8fb] p-4">
+            <div class="flex items-center justify-between gap-3">
+              <p class="text-sm font-medium uppercase tracking-[0.18em] text-[#86868b]"><%= comparison[:label] %></p>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-medium text-[#6e6e73]">Pierwszy / Ostatni</span>
+            </div>
 
             <div class="mt-4 grid grid-cols-2 gap-3">
-              <div class="overflow-hidden rounded-[1.25rem] border border-slate-200 bg-white">
-                <div class="aspect-[4/5] bg-slate-100">
+              <div class="overflow-hidden rounded-2xl border border-black/[0.04] bg-white">
+                <div class="aspect-[3/4] bg-[#ececf1]">
                   <% if comparison[:first].attached? %>
                     <%= image_tag comparison[:first], class: "h-full w-full object-cover" %>
                   <% else %>
-                    <div class="flex h-full items-center justify-center px-4 text-center text-sm text-slate-400">Brak zdjęcia</div>
+                    <div class="flex h-full items-center justify-center px-4 text-center text-sm text-[#86868b]">Brak zdjęcia</div>
                   <% end %>
                 </div>
-                <div class="border-t border-slate-200 px-3 py-2 text-sm font-medium text-slate-600">Pierwszy</div>
+                <div class="border-t border-black/[0.04] px-3 py-2 text-sm font-medium text-[#6e6e73]">Pierwszy</div>
               </div>
 
-              <div class="overflow-hidden rounded-[1.25rem] border border-slate-200 bg-white">
-                <div class="aspect-[4/5] bg-slate-100">
+              <div class="overflow-hidden rounded-2xl border border-black/[0.04] bg-white">
+                <div class="aspect-[3/4] bg-[#ececf1]">
                   <% if comparison[:last].attached? %>
                     <%= image_tag comparison[:last], class: "h-full w-full object-cover" %>
                   <% else %>
-                    <div class="flex h-full items-center justify-center px-4 text-center text-sm text-slate-400">Brak zdjęcia</div>
+                    <div class="flex h-full items-center justify-center px-4 text-center text-sm text-[#86868b]">Brak zdjęcia</div>
                   <% end %>
                 </div>
-                <div class="border-t border-slate-200 px-3 py-2 text-sm font-medium text-slate-600">Ostatni</div>
+                <div class="border-t border-black/[0.04] px-3 py-2 text-sm font-medium text-[#6e6e73]">Ostatni</div>
               </div>
             </div>
           </article>
