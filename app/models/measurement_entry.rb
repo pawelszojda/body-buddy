@@ -1,5 +1,6 @@
 class MeasurementEntry < ApplicationRecord
   BODY_MEASUREMENT_FIELDS = %i[calf thigh buttocks waist abdomen chest biceps forearm].freeze
+  PREFILL_FIELDS = [ :weight, :body_fat, *BODY_MEASUREMENT_FIELDS ].freeze
   COMPARISON_FIELDS = [
     { field: :weight, label: "Waga", unit: "kg", positive_trend: :decrease },
     { field: :body_fat, label: "Tkanka tłuszczowa", unit: "%", positive_trend: :decrease },
@@ -155,5 +156,11 @@ class MeasurementEntry < ApplicationRecord
     return if previous_value.blank? || latest_value.blank?
 
     latest_value - previous_value
+  end
+
+  def self.prefill_attributes_from(entry)
+    return {} if entry.blank?
+
+    entry.attributes.symbolize_keys.slice(*PREFILL_FIELDS)
   end
 end

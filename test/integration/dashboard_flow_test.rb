@@ -13,6 +13,31 @@ class DashboardFlowTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match "Dodaj pomiar", response.body
     assert_match "Ostatnie pomiary", response.body
+    assert_match "Filtruj", response.body
+  end
+
+  test "dashboard limits history to last 10 entries and can filter by date" do
+    sign_in_as(@user)
+
+    12.times do |index|
+      @user.measurement_entries.create!(
+        weight: 80 + index,
+        created_at: Time.zone.local(2026, 6, index + 1, 8, 0, 0),
+        updated_at: Time.zone.local(2026, 6, index + 1, 8, 0, 0)
+      )
+    end
+
+    get root_path
+
+    assert_response :success
+    assert_match "Pokazano 10 z 12 wpisów", response.body
+
+    get root_path, params: { date_from: "2026-06-10", date_to: "2026-06-12" }
+
+    assert_response :success
+    assert_match "3 wpisy", response.body
+    assert_match "12.06.2026", response.body
+    assert_no_match "88 kg", response.body
   end
 
   test "creates a measurement entry through turbo stream" do

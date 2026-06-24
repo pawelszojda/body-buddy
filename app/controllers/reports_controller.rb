@@ -6,13 +6,7 @@ class ReportsController < ApplicationController
     @last_entry = @entries_in_range.chronological.last
 
     if turbo_frame_request?
-      render partial: "reports/results",
-             locals: {
-               first_entry: @first_entry,
-               last_entry: @last_entry,
-               date_from: @date_from,
-               date_to: @date_to
-             }
+      render :show
     end
   end
 

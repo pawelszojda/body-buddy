@@ -58,7 +58,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :unprocessable_entity
-    assert_match "Current password jest nieprawidłowe", response.body
+    assert_match "Aktualne hasło jest nieprawidłowe.", response.body
   end
 
   test "deletes account" do

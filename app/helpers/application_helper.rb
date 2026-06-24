@@ -142,6 +142,14 @@ module ApplicationHelper
     value.presence || "Brak"
   end
 
+  def dashboard_entries_summary(filtered_count, displayed_count)
+    if filtered_count > displayed_count
+      "Pokazano #{displayed_count} z #{filtered_count} wpisów"
+    else
+      measurement_entries_count_label(filtered_count)
+    end
+  end
+
   private
 
   def polish_plural(count, singular, paucal, plural)

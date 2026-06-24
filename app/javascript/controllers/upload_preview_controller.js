@@ -28,6 +28,16 @@ export default class extends Controller {
     this.filenameTarget.textContent = file.name
   }
 
+  pickLibrary() {
+    this.inputTarget.removeAttribute("capture")
+    this.inputTarget.click()
+  }
+
+  pickCamera() {
+    this.inputTarget.setAttribute("capture", "environment")
+    this.inputTarget.click()
+  }
+
   reset() {
     this.revokeObjectUrl()
     this.imageTarget.removeAttribute("src")

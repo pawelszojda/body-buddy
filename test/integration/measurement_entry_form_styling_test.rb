@@ -8,6 +8,19 @@ class MeasurementEntryFormStylingTest < ActionDispatch::IntegrationTest
   test "quick add form renders sectioned ios style layout" do
     sign_in_as(@user)
 
+    @user.measurement_entries.create!(
+      weight: 82.4,
+      body_fat: 21.5,
+      calf: 40.0,
+      thigh: 59.0,
+      buttocks: 101.0,
+      waist: 86.0,
+      abdomen: 90.0,
+      chest: 104.0,
+      biceps: 35.0,
+      forearm: 28.0
+    )
+
     get new_measurement_entry_path
 
     assert_response :success
@@ -17,6 +30,11 @@ class MeasurementEntryFormStylingTest < ActionDispatch::IntegrationTest
     assert_match "Zdjęcia progresu", response.body
     assert_match "upload-preview", response.body
     assert_match "Twardy, zbity", response.body
+    assert_match "value=\"82.4\"", response.body
+    assert_match "value=\"21.5\"", response.body
+    assert_match "Porzuć", response.body
+    assert_match "Aparat", response.body
+    assert_match "Biblioteka", response.body
   end
 
   private

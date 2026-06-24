@@ -33,7 +33,7 @@ class AccountsController < ApplicationController
     return true unless password_update_requested?
 
     unless current_user.authenticate(params[:user][:current_password].to_s)
-      current_user.errors.add(:current_password, "jest nieprawidłowe")
+      current_user.errors.add(:base, "Aktualne hasło jest nieprawidłowe.")
       return false
     end
 
