@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <%= form_with url: session_path, class: "space-y-5" do |form| %>
+    <%= form_with url: session_path, class: "space-y-5 turbo-subtle-busy" do |form| %>
       <div class="space-y-2">
         <%= form.label :email, "E-mail", class: "text-sm font-medium text-slate-700" %>
         <%= form.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
@@ -21,7 +21,7 @@
         <%= form.password_field :password, autocomplete: "current-password", required: true, class: "block w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400" %>
       </div>
 
-      <%= form.submit "Zaloguj się", class: "w-full rounded-2xl bg-slate-950 px-4 py-3 text-base font-medium text-white transition hover:bg-slate-800" %>
+      <%= form.submit "Zaloguj się", data: { turbo_submits_with: "Logowanie..." }, class: "w-full rounded-2xl bg-slate-950 px-4 py-3 text-base font-medium text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-slate-800 active:scale-[0.99] disabled:translate-y-0 disabled:cursor-wait disabled:opacity-70" %>
     <% end %>
   </div>
 </div>

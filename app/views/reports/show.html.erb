@@ -15,7 +15,7 @@
         </div>
 
         <div class="w-full lg:max-w-[30rem]">
-          <%= form_with url: report_path, method: :get, class: "rounded-[1.75rem] border border-black/[0.04] bg-white/90 p-4 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-5", data: { turbo_frame: "report_results" } do |form| %>
+          <%= form_with url: report_path, method: :get, class: "rounded-[1.75rem] border border-black/[0.04] bg-white/90 p-4 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-5 turbo-subtle-busy", data: { turbo_frame: "report_results" } do |form| %>
             <div class="grid gap-3 sm:grid-cols-2">
               <div>
                 <%= form.label :date_from, "Od", class: "text-sm font-medium text-[#6e6e73]" %>
@@ -30,7 +30,7 @@
 
             <div class="mt-4 flex items-center justify-between gap-4">
               <p class="text-sm text-[#86868b]">Zakres: <%= report_date_range_label(@date_from, @date_to) %></p>
-              <%= form.submit "Pokaż porównanie", class: "inline-flex items-center justify-center rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 ease-out hover:bg-black" %>
+              <%= form.submit "Pokaż porównanie", data: { turbo_submits_with: "Ładowanie..." }, class: "inline-flex items-center justify-center rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-black active:scale-[0.99] disabled:translate-y-0 disabled:cursor-wait disabled:opacity-70" %>
             </div>
           <% end %>
         </div>
