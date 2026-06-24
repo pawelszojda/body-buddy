@@ -1,0 +1,30 @@
+<% content_for :title, "Dashboard | Body Buddy" %>
+
+<section class="space-y-8">
+  <div class="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-sm shadow-slate-200/70 backdrop-blur">
+    <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Phase 1 Shell</p>
+    <h1 class="mt-3 max-w-2xl text-4xl font-semibold tracking-[-0.04em] text-slate-950">
+      A calm space for your daily health tracking.
+    </h1>
+    <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+      The secure application shell is in place. Measurement entry flows and progress views can now be layered on top.
+    </p>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-sm shadow-slate-200/60">
+      <p class="text-sm text-slate-500">Signed in as</p>
+      <p class="mt-2 text-lg font-semibold tracking-[-0.02em] text-slate-950"><%= current_user.email %></p>
+    </div>
+
+    <div class="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-sm shadow-slate-200/60">
+      <p class="text-sm text-slate-500">Shell status</p>
+      <p class="mt-2 text-lg font-semibold tracking-[-0.02em] text-slate-950">Protected</p>
+    </div>
+
+    <div class="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-sm shadow-slate-200/60">
+      <p class="text-sm text-slate-500">Next focus</p>
+      <p class="mt-2 text-lg font-semibold tracking-[-0.02em] text-slate-950">Measurements</p>
+    </div>
+  </div>
+</section>
