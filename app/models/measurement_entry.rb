@@ -45,6 +45,15 @@ class MeasurementEntry < ApplicationRecord
     6 => "Typ 6",
     7 => "Typ 7"
   }.freeze
+  BRISTOL_DESCRIPTIONS = {
+    1 => "Twardy, zbity",
+    2 => "Lekko grudkowaty",
+    3 => "Zwarty z pęknięciami",
+    4 => "Gładki i miękki",
+    5 => "Miękkie kawałki",
+    6 => "Papkowaty",
+    7 => "Wodnisty"
+  }.freeze
 
   belongs_to :user
 

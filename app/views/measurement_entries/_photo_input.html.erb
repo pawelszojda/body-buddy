@@ -1,0 +1,26 @@
+<div data-controller="upload-preview" class="min-w-0">
+  <%= form.label field, class: "block" do %>
+    <span class="mb-2 block text-sm font-medium text-[#6e6e73]"><%= label %></span>
+
+    <div class="group relative overflow-hidden rounded-[1.5rem] border border-dashed border-black/[0.08] bg-[#f7f8fb] transition-all duration-200 ease-out hover:border-black/[0.12] hover:bg-white">
+      <div class="aspect-square">
+        <img data-upload-preview-target="image" class="hidden h-full w-full object-cover" alt="<%= label %>">
+        <div data-upload-preview-target="placeholder" class="flex h-full flex-col items-center justify-center px-4 text-center">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl font-light text-[#1d1d1f] shadow-[0_4px_12px_rgba(0,0,0,0.04)]">+</div>
+          <p class="mt-4 text-sm font-medium text-[#1d1d1f]"><%= label %></p>
+          <p class="mt-1 text-xs leading-5 text-[#86868b]">Dodaj zdjęcie lub podmień je przed zapisem.</p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form.file_field field,
+                      accept: "image/*",
+                      class: "sr-only",
+                      data: {
+                        upload_preview_target: "input",
+                        action: "change->upload-preview#preview"
+                      } %>
+
+  <p data-upload-preview-target="filename" class="mt-2 truncate text-xs text-[#86868b]">Brak wybranego pliku</p>
+</div>

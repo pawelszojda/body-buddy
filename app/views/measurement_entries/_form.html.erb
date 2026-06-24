@@ -1,4 +1,4 @@
-<%= form_with model: measurement_entry, class: "space-y-6" do |form| %>
+<%= form_with model: measurement_entry, class: "space-y-5" do |form| %>
   <% if measurement_entry.errors.any? %>
     <section class="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
       <p class="font-medium">Nie udało się zapisać pomiaru.</p>
@@ -10,37 +10,74 @@
     </section>
   <% end %>
 
-  <section class="space-y-3">
-    <div>
-      <div>
-        <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Szybki wpis</p>
-        <h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-slate-950">Nowy pomiar</h2>
-      </div>
+  <section class="rounded-[1.75rem] bg-[linear-gradient(135deg,rgba(255,255,255,1),rgba(247,248,251,1))] px-5 py-5">
+    <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]">Szybki wpis</p>
+    <h2 class="mt-2 text-3xl font-semibold tracking-tight text-[#1d1d1f]">Nowy pomiar</h2>
+    <p class="mt-2 max-w-xl text-sm leading-6 text-[#6e6e73]">
+      Uzupełnij najważniejsze dane. Formularz został podzielony jak arkusz w aplikacji Zdrowie.
+    </p>
+  </section>
+
+  <section class="rounded-[1.75rem] border border-black/[0.04] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-6">
+    <div class="mb-5">
+      <p class="text-sm font-medium uppercase tracking-[0.16em] text-[#86868b]">Podstawowe pomiary</p>
+      <h3 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Rdzeń wpisu</h3>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="sm:col-span-2">
-        <%= form.label :weight, "Waga (kg)", class: "text-sm font-medium text-slate-700" %>
-        <%= form.number_field :weight, step: "0.01", min: "0", required: true, inputmode: "decimal", placeholder: "82.4", class: "mt-2 block w-full rounded-[1.75rem] border border-slate-200 bg-slate-50 px-5 py-5 text-4xl font-semibold tracking-[-0.04em] text-slate-950 outline-none transition focus:border-slate-400 focus:bg-white" %>
+        <%= form.label :weight, "Waga (kg)", class: "text-sm font-medium text-[#6e6e73]" %>
+        <%= form.number_field :weight, step: "0.01", min: "0", required: true, inputmode: "decimal", placeholder: "82.4", class: "mt-2 block w-full rounded-[1.75rem] border border-black/[0.05] bg-[#f7f8fb] px-5 py-5 text-4xl font-semibold tracking-tight text-[#1d1d1f] outline-none transition-all duration-200 ease-out focus:border-black/20 focus:bg-white focus:ring-1 focus:ring-black/20" %>
       </div>
 
       <div>
-        <%= form.label :body_fat, "Tkanka tłuszczowa (%)", class: "text-sm font-medium text-slate-700" %>
-        <%= form.number_field :body_fat, step: "0.01", min: "0", max: "100", inputmode: "decimal", class: "mt-2 block w-full rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white" %>
+        <%= form.label :body_fat, "Tkanka tłuszczowa (%)", class: "text-sm font-medium text-[#6e6e73]" %>
+        <%= form.number_field :body_fat, step: "0.01", min: "0", max: "100", inputmode: "decimal", class: "mt-2 block w-full rounded-[1.25rem] border border-black/[0.05] bg-[#f7f8fb] px-4 py-3 text-base text-[#1d1d1f] outline-none transition-all duration-200 ease-out focus:border-black/20 focus:bg-white focus:ring-1 focus:ring-black/20" %>
       </div>
 
       <div>
-        <%= form.label :stool_color, "Kolor stolca", class: "text-sm font-medium text-slate-700" %>
-        <%= form.text_field :stool_color, placeholder: "Brązowy", class: "mt-2 block w-full rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white" %>
+        <%= form.label :stool_color, "Kolor stolca", class: "text-sm font-medium text-[#6e6e73]" %>
+        <%= form.text_field :stool_color, placeholder: "Brązowy", class: "mt-2 block w-full rounded-[1.25rem] border border-black/[0.05] bg-[#f7f8fb] px-4 py-3 text-base text-[#1d1d1f] outline-none transition-all duration-200 ease-out focus:border-black/20 focus:bg-white focus:ring-1 focus:ring-black/20" %>
       </div>
     </div>
   </section>
 
-  <section class="space-y-4">
+  <section class="rounded-[1.75rem] border border-black/[0.04] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-6">
+    <div class="mb-5">
+      <p class="text-sm font-medium uppercase tracking-[0.16em] text-[#86868b]">Obwody ciała</p>
+      <h3 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Skan sylwetki</h3>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <% [
+        [:calf, "Łydka"],
+        [:thigh, "Udo"],
+        [:buttocks, "Pośladki"],
+        [:waist, "Pas"],
+        [:abdomen, "Brzuch"],
+        [:chest, "Klatka piersiowa"],
+        [:biceps, "Biceps"],
+        [:forearm, "Przedramię"]
+      ].each do |field, label| %>
+        <div>
+          <%= form.label field, "#{label} (cm)", class: "text-sm font-medium text-[#6e6e73]" %>
+          <%= form.number_field field, step: "0.01", min: "0", inputmode: "decimal", class: "mt-2 block w-full rounded-[1.25rem] border border-black/[0.05] bg-[#f7f8fb] px-4 py-3 text-base text-[#1d1d1f] outline-none transition-all duration-200 ease-out focus:border-black/20 focus:bg-white focus:ring-1 focus:ring-black/20" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="rounded-[1.75rem] border border-black/[0.04] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-6 space-y-5">
+    <div>
+      <p class="text-sm font-medium uppercase tracking-[0.16em] text-[#86868b]">Samopoczucie i zdrowie</p>
+      <h3 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Jak wyglądał ten dzień?</h3>
+    </div>
+
     <%= render "measurement_entries/radio_picker",
                form: form,
                field: :mood,
                legend: "Nastrój",
+               hint: "Wybierz 1 z 5",
                options: [
                  [ "😞", 1 ],
                  [ "😐", 2 ],
@@ -53,6 +90,7 @@
                form: form,
                field: :sleep_quality,
                legend: "Sen",
+               hint: "Ocena nocy",
                options: [
                  [ "😴", 1 ],
                  [ "🥱", 2 ],
@@ -65,41 +103,44 @@
                form: form,
                field: :bristol_stool_type,
                legend: "Skala Bristol",
+               hint: "Typ stolca",
+               variant: :bristol,
                options: [
-                 [ "1", 1 ],
-                 [ "2", 2 ],
-                 [ "3", 3 ],
-                 [ "4", 4 ],
-                 [ "5", 5 ],
-                 [ "6", 6 ],
-                 [ "7", 7 ]
+                 { label: "1", value: 1, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[1] },
+                 { label: "2", value: 2, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[2] },
+                 { label: "3", value: 3, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[3] },
+                 { label: "4", value: 4, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[4] },
+                 { label: "5", value: 5, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[5] },
+                 { label: "6", value: 6, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[6] },
+                 { label: "7", value: 7, description: MeasurementEntry::BRISTOL_DESCRIPTIONS[7] }
                ] %>
   </section>
 
-  <section class="grid gap-4 sm:grid-cols-3">
-    <div>
-      <%= form.label :photo_front, "Zdjęcie przód", class: "text-sm font-medium text-slate-700" %>
-      <%= form.file_field :photo_front, accept: "image/*", class: "mt-2 block w-full rounded-[1.25rem] border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 file:mr-3 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white" %>
+  <section class="rounded-[1.75rem] border border-black/[0.04] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-6">
+    <div class="mb-5">
+      <p class="text-sm font-medium uppercase tracking-[0.16em] text-[#86868b]">Zdjęcia progresu</p>
+      <h3 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Kadry jak z rolki aparatu</h3>
     </div>
 
-    <div>
-      <%= form.label :photo_back, "Zdjęcie tył", class: "text-sm font-medium text-slate-700" %>
-      <%= form.file_field :photo_back, accept: "image/*", class: "mt-2 block w-full rounded-[1.25rem] border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 file:mr-3 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white" %>
-    </div>
-
-    <div>
-      <%= form.label :photo_side, "Zdjęcie bok", class: "text-sm font-medium text-slate-700" %>
-      <%= form.file_field :photo_side, accept: "image/*", class: "mt-2 block w-full rounded-[1.25rem] border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 file:mr-3 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white" %>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <%= render "measurement_entries/photo_input", form: form, field: :photo_front, label: "Przód" %>
+      <%= render "measurement_entries/photo_input", form: form, field: :photo_back, label: "Tył" %>
+      <%= render "measurement_entries/photo_input", form: form, field: :photo_side, label: "Bok" %>
     </div>
   </section>
 
-  <section>
-    <%= form.label :note, "Notatka", class: "text-sm font-medium text-slate-700" %>
-    <%= form.text_area :note, rows: 4, class: "mt-2 block w-full rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white" %>
+  <section class="rounded-[1.75rem] border border-black/[0.04] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] sm:p-6">
+    <div class="mb-5">
+      <p class="text-sm font-medium uppercase tracking-[0.16em] text-[#86868b]">Notatka</p>
+      <h3 class="mt-1 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Kilka słów o dniu</h3>
+    </div>
+
+    <%= form.label :note, "Komentarz", class: "text-sm font-medium text-[#6e6e73]" %>
+    <%= form.text_area :note, rows: 4, class: "mt-2 block w-full rounded-[1.25rem] border border-black/[0.05] bg-[#f7f8fb] px-4 py-3 text-base text-[#1d1d1f] outline-none transition-all duration-200 ease-out focus:border-black/20 focus:bg-white focus:ring-1 focus:ring-black/20" %>
   </section>
 
-  <div class="flex items-center gap-3">
-    <%= form.submit "Zapisz pomiar", class: "inline-flex items-center justify-center rounded-[1.5rem] bg-slate-950 px-5 py-4 text-base font-medium text-white shadow-lg shadow-slate-300/60 transition hover:bg-slate-800" %>
-    <p class="text-sm text-slate-500">Zapis odbywa się bez odświeżania całego ekranu.</p>
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm leading-6 text-[#86868b]">Po zapisie nowy wpis pojawi się od razu na górze osi czasu.</p>
+    <%= form.submit "Zapisz pomiar", class: "inline-flex items-center justify-center rounded-full bg-[#1d1d1f] px-6 py-3 text-sm font-medium text-white shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 ease-out hover:bg-black" %>
   </div>
 <% end %>
