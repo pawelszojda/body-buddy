@@ -1,4 +1,8 @@
 class MeasurementEntriesController < ApplicationController
+  def show
+    @measurement_entry = current_user.measurement_entries.find(params[:id])
+  end
+
   def new
     @measurement_entry = current_user.measurement_entries.new
   end

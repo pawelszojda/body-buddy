@@ -4,10 +4,10 @@
       <p class="text-sm text-slate-500">
         <%= measurement_entry_timestamp(measurement_entry.created_at) %>
       </p>
-      <p class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
+      <%= link_to measurement_entry_path(measurement_entry), class: "mt-2 inline-block text-3xl font-semibold tracking-[-0.04em] text-slate-950 transition hover:text-slate-700" do %>
         <%= number_with_precision(measurement_entry.weight, precision: 2, strip_insignificant_zeros: true) %>
         <span class="text-lg font-medium text-slate-500">kg</span>
-      </p>
+      <% end %>
     </div>
 
     <div class="flex flex-wrap gap-2">
@@ -22,6 +22,8 @@
           Zdjęcia
         </span>
       <% end %>
+
+      <%= link_to "Szczegóły", measurement_entry_path(measurement_entry), class: "inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-950" %>
     </div>
   </div>
 </article>

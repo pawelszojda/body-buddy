@@ -1,5 +1,15 @@
 class MeasurementEntry < ApplicationRecord
   BODY_MEASUREMENT_FIELDS = %i[calf thigh buttocks waist abdomen chest biceps forearm].freeze
+  BODY_MEASUREMENT_LABELS = {
+    calf: "Łydka",
+    thigh: "Udo",
+    buttocks: "Pośladki",
+    waist: "Pas",
+    abdomen: "Brzuch",
+    chest: "Klatka piersiowa",
+    biceps: "Biceps",
+    forearm: "Przedramię"
+  }.freeze
   MOOD_EMOJIS = {
     1 => "😞",
     2 => "😐",
@@ -63,5 +73,22 @@ class MeasurementEntry < ApplicationRecord
     return if bristol_stool_type.blank?
 
     { label: "Bristol", value: BRISTOL_LABELS[bristol_stool_type] }
+  end
+
+  def circumference_rows
+    BODY_MEASUREMENT_FIELDS.filter_map do |field|
+      value = public_send(field)
+      next if value.blank?
+
+      { label: BODY_MEASUREMENT_LABELS.fetch(field), value: value }
+    end
+  end
+
+  def photo_gallery_items
+    [
+      { label: "Przód", attachment: photo_front },
+      { label: "Tył", attachment: photo_back },
+      { label: "Bok", attachment: photo_side }
+    ]
   end
 end
