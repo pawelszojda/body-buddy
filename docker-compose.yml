@@ -3,7 +3,6 @@ version: '3.8'
 services:
   web:
     build: .
-    image: body-buddy:latest
     restart: always
     environment:
       - RAILS_ENV=production
@@ -13,6 +12,3 @@ services:
       - body_buddy_storage:/rails/storage
     ports:
       - "3000:3000"
-
-volumes:
-  body_buddy_storage:
