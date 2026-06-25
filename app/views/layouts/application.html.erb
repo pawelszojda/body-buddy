@@ -18,9 +18,10 @@
     <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <%= tag.link rel: "serviceworker", href: pwa_service_worker_path(format: :js) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/body-buddy-icon.svg" type="image/svg+xml">
+    <link rel="icon" href="/body-buddy-icon-192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="/body-buddy-icon-512.png" sizes="512x512" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -34,7 +35,7 @@
           <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-8">
             <div class="flex items-center gap-4">
               <div class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-black/[0.04] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
-                <%= image_tag "/icon.svg", alt: "Body Buddy", class: "h-9 w-9" %>
+                <%= image_tag "/body-buddy-icon.svg", alt: "Body Buddy", class: "h-9 w-9" %>
               </div>
               <div>
                 <%= link_to "Body Buddy", root_path, class: "text-lg font-semibold tracking-tight text-[#1d1d1f]" %>
