@@ -30,6 +30,7 @@ class MeasurementEntryFormStylingTest < ActionDispatch::IntegrationTest
     assert_match "Zdjęcia progresu", response.body
     assert_match "upload-preview", response.body
     assert_match "Twardy, zbity", response.body
+    assert_match "Jasny brąz", response.body
     assert_match "value=\"82.4\"", response.body
     assert_match "value=\"21.5\"", response.body
     assert_match "Porzuć", response.body

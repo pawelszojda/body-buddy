@@ -55,6 +55,13 @@ class MeasurementEntry < ApplicationRecord
     6 => "Papkowaty",
     7 => "Wodnisty"
   }.freeze
+  STOOL_COLOR_OPTIONS = [
+    { value: "jasnobrązowy", label: "Jasny brąz", swatch: "#c98b55" },
+    { value: "brązowy", label: "Brązowy", swatch: "#8b5a3c" },
+    { value: "ciemnobrązowy", label: "Ciemny brąz", swatch: "#5a3827" },
+    { value: "żółtobrązowy", label: "Żółty brąz", swatch: "#d5a44b" },
+    { value: "oliwkowy", label: "Oliwkowy", swatch: "#7d8246" }
+  ].freeze
 
   belongs_to :user
 

@@ -7,20 +7,29 @@
   </div>
 
   <% picker_variant = local_assigns.fetch(:variant, :emoji) %>
-  <% grid_classes = picker_variant == :bristol ? "grid grid-cols-2 gap-3 lg:grid-cols-4" : "grid grid-cols-5 gap-2 sm:flex sm:flex-wrap" %>
+  <% grid_classes =
+      case picker_variant
+      when :bristol
+        "grid grid-cols-2 gap-3 lg:grid-cols-4"
+      when :color
+        "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
+      else
+        "grid grid-cols-5 gap-2 sm:flex sm:flex-wrap"
+      end %>
 
   <div class="<%= grid_classes %>">
     <% options.each do |option| %>
       <% label = option.is_a?(Array) ? option[0] : option[:label] %>
       <% value = option.is_a?(Array) ? option[1] : option[:value] %>
       <% description = option.is_a?(Array) ? nil : option[:description] %>
-      <% input_id = "#{field}_#{value}" %>
+      <% swatch = option.is_a?(Array) ? nil : option[:swatch] %>
+      <% input_id = "#{form.object_name}_#{field}_#{value.to_s.parameterize(separator: "_")}" %>
 
       <div class="min-w-0">
         <%= form.radio_button field, value, id: input_id, class: "peer sr-only" %>
 
         <% if picker_variant == :bristol %>
-          <%= form.label input_id, class: "flex min-h-24 cursor-pointer flex-col justify-between rounded-2xl border border-black/[0.05] bg-[#f7f8fb] p-4 text-left transition-all duration-200 ease-out hover:border-black/[0.08] hover:bg-white peer-checked:scale-[1.01] peer-checked:border-[#1d1d1f] peer-checked:bg-[#e8e8ed]" do %>
+          <%= label_tag input_id, class: "flex min-h-24 cursor-pointer flex-col justify-between rounded-2xl border border-black/[0.05] bg-[#f7f8fb] p-4 text-left transition-all duration-200 ease-out hover:border-black/[0.08] hover:bg-white peer-checked:scale-[1.01] peer-checked:border-[#1d1d1f] peer-checked:bg-[#e8e8ed]" do %>
             <div class="flex items-center justify-between gap-3">
               <span class="text-lg font-semibold tracking-tight text-[#1d1d1f]"><%= label %></span>
               <span class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#86868b]">
@@ -29,8 +38,13 @@
             </div>
             <p class="mt-3 text-sm leading-5 text-[#6e6e73]"><%= description %></p>
           <% end %>
+        <% elsif picker_variant == :color %>
+          <%= label_tag input_id, class: "flex min-h-28 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-black/[0.05] bg-[#f7f8fb] px-3 py-4 text-center transition-all duration-200 ease-out hover:border-black/[0.08] hover:bg-white peer-checked:scale-[1.01] peer-checked:border-[#1d1d1f] peer-checked:bg-[#e8e8ed]" do %>
+            <span class="h-10 w-10 rounded-full border border-black/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]" style="background-color: <%= swatch %>"></span>
+            <span class="text-xs font-medium leading-tight text-[#1d1d1f] sm:text-sm"><%= label %></span>
+          <% end %>
         <% else %>
-          <%= form.label input_id, class: "flex min-h-20 min-w-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-black/[0.05] bg-[#f7f8fb] px-3 py-3 text-center transition-all duration-200 ease-out hover:border-black/[0.08] hover:bg-white peer-checked:scale-110 peer-checked:border-transparent peer-checked:bg-[#e8e8ed]" do %>
+          <%= label_tag input_id, class: "flex min-h-20 min-w-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-black/[0.05] bg-[#f7f8fb] px-3 py-3 text-center transition-all duration-200 ease-out hover:border-black/[0.08] hover:bg-white peer-checked:scale-110 peer-checked:border-transparent peer-checked:bg-[#e8e8ed]" do %>
             <span class="text-3xl"><%= label %></span>
             <span class="text-[11px] font-medium uppercase tracking-[0.16em] text-[#86868b]"><%= value %>/5</span>
           <% end %>
